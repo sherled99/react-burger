@@ -1,8 +1,14 @@
+.url{
+    text-decoration: none;
+}
+
 .profile__text{
+    composes: url;
     color:#8585AD;
 }
 
 .btn__text{
+    composes: url;
     color:#F2F2F3;
 }
 

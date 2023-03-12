@@ -1,22 +1,30 @@
-import React from 'react';
+import {useState, useEffect} from 'react';
 import {AppHeader} from '../AppHeader/AppHeader';
 import {BurgerIngredients} from '../BurgerIngredients/BurgerIngredients';
 import {BurgerConstructor} from '../BurgerConstructor/BurgerConstructor';
-import {burgerData} from '../../utils/data.js'
+import {Modal} from '../Modal/Modal';
+import {ModalOverlay} from '../ModalOverlay/ModalOverlay';
+import {OrderDetails} from '../OrderDetails/OrderDetails';
+import {IngredientDetails} from '../IngredientDetails/IngredientDetails'
+import {url} from '../../utils/data.js'
 import style from'./App.module.css';
 
-class App extends React.Component {
-  state = {
-    burgerIngredients: burgerData,
+export const App = () => {
+  const [state, setState] = useState({
+    burgerIngredients: [],
     burgerConstructor: [],
-    totalPrice: 0
-  }
+    totalPrice: 0,
+    isOpen: false,
+    tag: null,
+    burgerConfig: {}
+  });
+
   
-  addIngridient = ({data}) => {
-    if (this.state.burgerConstructor.length === 0 && data.type !== 'bun'){
+  const addIngridient = ({data}) => {
+    if (state.burgerConstructor.length === 0 && data.type !== 'bun'){
       return;
     }
-    this.setState(prevState => ({
+    setState(prevState => ({
       ...prevState,
       burgerConstructor:[
         ...prevState.burgerConstructor,
@@ -26,17 +34,43 @@ class App extends React.Component {
     }));
   }
 
-  render() {
-    return (
-      <div className={`${style.App}`}>
-        <AppHeader />
-        <main className={`${style.container__burger} mb-10`}>
-          <BurgerIngredients burgerIngredients={this.state.burgerIngredients} addIngridient={this.addIngridient} />
-          <BurgerConstructor burgerConstructor={this.state.burgerConstructor} totalPrice={this.state.totalPrice} />
-        </main>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    fetch(url)
+    .then((res) => res.json())
+    .then(({data}) => {
+      setState(prevState => ({
+            ...prevState,
+            burgerIngredients:data,
+      }))
+    })
+    .catch((err) => console.log(err));
+  }, []);
 
-export default App;
+  const updateModal = (isOpen, tag, burgerConfig) => {
+    setState(prevState => ({
+      ...prevState,
+      isOpen: isOpen,
+      tag: tag ? tag : null,
+      burgerConfig: burgerConfig ? burgerConfig : {}
+    }));
+  }
+
+
+  return (
+    <div className={`${style.App}`}>
+      <AppHeader />
+      <main className={`${style.container__burger} mb-10`}>
+        <BurgerIngredients burgerIngredients={state.burgerIngredients} addIngridient={addIngridient} openModal={updateModal} />
+        <BurgerConstructor burgerConstructor={state.burgerConstructor} totalPrice={state.totalPrice} openModal={updateModal} />
+      </main>
+      <section>
+        <ModalOverlay isOpen={state.isOpen}>
+          <Modal onClose={updateModal}>
+            {state.tag === 'Order' && <OrderDetails/>}
+            {state.tag === 'Burger' && <IngredientDetails data={state.burgerConfig}/>}
+          </Modal>
+        </ModalOverlay>
+      </section>
+    </div>
+  );
+}
