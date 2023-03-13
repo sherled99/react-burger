@@ -2,12 +2,7 @@
     transition: visibility 0s, opacity 0.3s linear;
     position: fixed;
     top: 0;
-    max-width: 1920px;
     height: 100%;
     width: 100%;
-    justify-content: center;
-    align-items: center;
     background: rgba(0,0,0,.5);
-    flex-flow: column;
-    display: flex;
 }

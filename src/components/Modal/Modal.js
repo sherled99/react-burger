@@ -1,9 +1,10 @@
 import {useEffect} from 'react';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './Modal.module.css';
+import ReactDOM from 'react-dom';
+import {modalRoot} from '../../utils/document-elements'
 
-
-export const Modal = ({children, onClose}) => {
+export const Modal = ({isOpen, children, onClose}) => {
     useEffect(() => {
         document.addEventListener('keydown', onClick);
         document.addEventListener('click', onClick);
@@ -29,13 +30,18 @@ export const Modal = ({children, onClose}) => {
         onClose();
     }
 
-    return (
-        <div className={`${style.container__main}`}>
-            {children}
-            <div className={`mr-10 mt-15 ${style.square}`}>
-                <CloseIcon type="primary" />
-            </div>
-        </div>
-    )
-
+    return ReactDOM.createPortal ( 
+        ( 
+            <>
+                { isOpen && 
+                <div className={`${style.container__main}`}>
+                    {children}
+                    <div className={`mr-10 mt-15 ${style.square}`}>
+                        <CloseIcon type="primary" />
+                    </div>
+                </div>
+                }
+            </>
+            
+        ), modalRoot)
 }

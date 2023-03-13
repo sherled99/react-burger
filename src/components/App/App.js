@@ -6,8 +6,9 @@ import {Modal} from '../Modal/Modal';
 import {ModalOverlay} from '../ModalOverlay/ModalOverlay';
 import {OrderDetails} from '../OrderDetails/OrderDetails';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails'
-import {url} from '../../utils/data.js'
+import {getAllIngridients} from '../../utils/burger-api'
 import style from'./App.module.css';
+
 
 export const App = () => {
   const [state, setState] = useState({
@@ -35,8 +36,7 @@ export const App = () => {
   }
 
   useEffect(() => {
-    fetch(url)
-    .then((res) => res.json())
+    getAllIngridients()
     .then(({data}) => {
       setState(prevState => ({
             ...prevState,
@@ -45,6 +45,7 @@ export const App = () => {
     })
     .catch((err) => console.log(err));
   }, []);
+
 
   const updateModal = (isOpen, tag, burgerConfig) => {
     setState(prevState => ({
@@ -64,12 +65,11 @@ export const App = () => {
         <BurgerConstructor burgerConstructor={state.burgerConstructor} totalPrice={state.totalPrice} openModal={updateModal} />
       </main>
       <section>
-        <ModalOverlay isOpen={state.isOpen}>
-          <Modal onClose={updateModal}>
-            {state.tag === 'Order' && <OrderDetails/>}
-            {state.tag === 'Burger' && <IngredientDetails data={state.burgerConfig}/>}
-          </Modal>
-        </ModalOverlay>
+        <ModalOverlay isOpen={state.isOpen}/>
+        <Modal onClose={updateModal} isOpen={state.isOpen}>
+          {state.tag === 'Order' && <OrderDetails/>}
+          {state.tag === 'Burger' && <IngredientDetails data={state.burgerConfig}/>}
+        </Modal>
       </section>
     </div>
   );

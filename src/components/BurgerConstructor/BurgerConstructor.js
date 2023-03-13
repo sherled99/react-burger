@@ -1,21 +1,7 @@
 import { CurrencyIcon, ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './BurgerConstructor.module.css';
 import PropTypes from 'prop-types';
-
-const burgerConstructorMessagePropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  calories: PropTypes.number,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-  __v: PropTypes.number
-});
+import {burgerPropTypes} from '../../utils/prop-types';
 
 const Record = ({data}) => {
   return(
@@ -55,6 +41,6 @@ export const BurgerConstructor = ({burgerConstructor, totalPrice, openModal}) =>
 };
 
 BurgerConstructor.propTypes = {
-  burgerConstructor: PropTypes.arrayOf(burgerConstructorMessagePropTypes).isRequired,
+  burgerConstructor: PropTypes.arrayOf(burgerPropTypes).isRequired,
   totalPrice: PropTypes.number
 }; 

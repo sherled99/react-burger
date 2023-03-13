@@ -2,11 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import style from './ModalOverlay.module.css';
+import {modalRoot} from '../../utils/document-elements'
 
-const modalRoot = document.getElementById("react-modals");
 
-
-export const ModalOverlay = ({children, isOpen}) => {
+export const ModalOverlay = ({isOpen}) => {
 
     const [visible, setVisible] = React.useState(false);
 
@@ -18,9 +17,7 @@ export const ModalOverlay = ({children, isOpen}) => {
         (<>
             {
                 visible &&
-                <div className={`${style.container__main}`}>
-                    {children}
-                </div>
+                <div className={`${style.container__main}`}/>
             }
         </>
         ), modalRoot
