@@ -1,0 +1,39 @@
+.url{
+    text-decoration: none;
+}
+
+.profile__text{
+    composes: url;
+    color:#8585AD;
+}
+
+.btn__text{
+    composes: url;
+    color:#F2F2F3;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container__button{
+    display: flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.container__left{
+    display: flex;
+    margin-left: 320px;
+}
+
+.container__right{
+    display: flex;
+    padding-left: 10%;
+    margin-right: 320px;
+}
