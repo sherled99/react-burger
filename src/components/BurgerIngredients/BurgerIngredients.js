@@ -1,8 +1,9 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import { Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './BurgerIngredients.module.css';
 import PropTypes from 'prop-types';
 import {burgerPropTypes} from '../../utils/prop-types';
+import {BurgerIngredientsContext} from '../../utils/appContext';
 
 const Tabs = () => {
   const [current, setCurrent] = useState('rolls')
@@ -61,8 +62,8 @@ const Menu = ({data, title, addIngridient, anchor, openModal}) => {
   )
 }
 
-export const BurgerIngredients = ({burgerIngredients, addIngridient, openModal}) => {
-    
+export const BurgerIngredients = ({addIngridient, openModal}) => {
+  const { burgerIngredients } = useContext(BurgerIngredientsContext);
   return (
       <div className={`${style.container__main}`}>
         <h1 className={`${style.title} text text_type_main-default mt-10 mb-5`}>
