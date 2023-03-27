@@ -1,4 +1,4 @@
-import {useContext, useEffect} from 'react';
+import {useContext} from 'react';
 import { CurrencyIcon, ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './BurgerConstructor.module.css';
 import {BurgerConstructorContext, OrderContext} from '../../utils/appContext';
@@ -15,6 +15,7 @@ const Record = ({data, length}) => {
     <div className={`${style.container} mb-4 ml-4`}>
       <ConstructorElement
         type={type}
+        isLocked={data.type === 'bun'}
         text={data.name}
         price={data.price}
         thumbnail={data.image}
@@ -41,10 +42,6 @@ export const BurgerConstructor = ({openModal}) =>
       .catch((err) => console.log(err));
     }
 
-    useEffect(() => {
-      document.querySelector('#orderButton').disabled = burgerConstructor.length === 0 || !(burgerConstructor.length > 1 && burgerConstructor[0].type ==='bun' && burgerConstructor.at(-1).type ==='bun');
-    }, [burgerConstructor]);
-
     return (
     <div className={`mt-25`}>
       <div className={`${style.container__main} mb-10`}>
@@ -54,7 +51,7 @@ export const BurgerConstructor = ({openModal}) =>
         <p className='text text_type_digits-medium mr-1'>{burgerConstructor.length !== 0 ? burgerConstructor.map(x => x.price).reduce((sum, x) => {return sum + x}) : 0}</p>
         <CurrencyIcon type="primary" />
         <div className='ml-10'>
-          <Button htmlType="button" id='orderButton' type="primary" size="large" tag="order" onClick={onOrder}>
+          <Button htmlType="button" id='orderButton' type="primary" size="large" tag="order" onClick={onOrder} disabled={burgerConstructor.length === 0 || !(burgerConstructor.length > 1 && burgerConstructor[0].type ==='bun' && burgerConstructor.at(-1).type ==='bun')}>
             Оформить заказ
           </Button>
         </div>

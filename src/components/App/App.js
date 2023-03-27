@@ -3,7 +3,6 @@ import {AppHeader} from '../AppHeader/AppHeader';
 import {BurgerIngredients} from '../BurgerIngredients/BurgerIngredients';
 import {BurgerConstructor} from '../BurgerConstructor/BurgerConstructor';
 import {Modal} from '../Modal/Modal';
-import {ModalOverlay} from '../ModalOverlay/ModalOverlay';
 import {OrderDetails} from '../OrderDetails/OrderDetails';
 import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
 import {getAllIngridients} from '../../utils/burger-api';
@@ -28,8 +27,22 @@ export const App = () => {
     if (burgerConstructor.length === 0 && data.type !== 'bun' || (burgerConstructor.length > 1 && burgerConstructor.at(-1).type === 'bun')){
       return;
     }
+    let name = data.name
+    if (data.type === 'bun'){
+      if (burgerConstructor.length === 0) {
+        name = `${data.name} (верх)`;
+      } else {
+        name = `${data.name} (низ)`;
+      }
+    }
     
-    setBurgerConstructor(prev => ([...prev, data]));
+    setBurgerConstructor(prev => ([...prev, {
+      _id: data._id,
+      name: data.type === 'bun' ? name : data.name,
+      type: data.type,
+      price: data.price,
+      image: data.image
+    }]));
   }
 
   useEffect(() => {
@@ -63,11 +76,13 @@ export const App = () => {
             </BurgerIngredientsContext.Provider>
           </main>
           <section>
-            <ModalOverlay isOpen={state.isOpen}/>
-            <Modal onClose={updateModal} isOpen={state.isOpen}>
-              {state.typeModal === 'Order' && <OrderDetails/>}
-              {state.typeModal === 'Burger' && <IngredientDetails data={state.burgerConfig}/>}
-            </Modal>
+            {
+              state.isOpen && 
+              <Modal onClose={updateModal}>
+                {state.typeModal === 'Order' && <OrderDetails/>}
+                {state.typeModal === 'Burger' && <IngredientDetails data={state.burgerConfig}/>}
+              </Modal>
+            }
           </section>
         </OrderContext.Provider>
       </div>
