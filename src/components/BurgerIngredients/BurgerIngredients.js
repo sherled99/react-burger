@@ -1,13 +1,12 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import { Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './BurgerIngredients.module.css';
-import PropTypes from 'prop-types';
-import {burgerPropTypes} from '../../utils/prop-types';
+import {BurgerIngredientsContext} from '../../utils/appContext';
 
 const Tabs = () => {
   const [current, setCurrent] = useState('rolls')
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={`${style.container__constructorElement}`}>
       <Tab value="rolls" active={current === 'rolls'} onClick={(evt) => {
         setCurrent(evt);
         window.location.href='#rolls'
@@ -38,7 +37,7 @@ const Ingredients = ({data, addIngridient, openModal}) => {
 
   return (
     <div className={`mt-6 ${style.mr_first_el} ${style.container__max}`}>
-      <img src={data.image} className={`${style.image} ml-4 mr-4`} onClick={onOrder} />
+      <img src={data.image} className={`${style.image} ml-4 mr-4`} onClick={onOrder} alt={data.name} />
       <div className={`${style.container__price} mb-1 mb-1`} onClick={() => addIngridient({data})} >
         <p className={`mr-2`}>{data.price}</p>
         <CurrencyIcon type="primary" />
@@ -61,8 +60,8 @@ const Menu = ({data, title, addIngridient, anchor, openModal}) => {
   )
 }
 
-export const BurgerIngredients = ({burgerIngredients, addIngridient, openModal}) => {
-    
+export const BurgerIngredients = ({addIngridient, openModal}) => {
+  const { burgerIngredients } = useContext(BurgerIngredientsContext);
   return (
       <div className={`${style.container__main}`}>
         <h1 className={`${style.title} text text_type_main-default mt-10 mb-5`}>
@@ -77,7 +76,3 @@ export const BurgerIngredients = ({burgerIngredients, addIngridient, openModal})
       </div>
   )
 }
-
-BurgerIngredients.propTypes = {
-  burgerIngredients: PropTypes.arrayOf(burgerPropTypes)
-}; 

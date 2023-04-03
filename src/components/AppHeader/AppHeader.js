@@ -13,7 +13,9 @@ export const AppHeader = () => (
         <a href='#' className={`${style.btn__text} text text_type_main-default ml-2`}>Лента заказов</a>
       </div>
     </div>
-    <Logo/>
+    <div className={`${style.logo}`}>
+      <Logo/>
+    </div>
     <div className={style.container__right}>
       <div className={`${style.container__button} mt-4 ml-5 mr-5 mb-4`}>
         <ProfileIcon type="secondary" />

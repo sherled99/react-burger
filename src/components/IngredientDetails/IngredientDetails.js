@@ -6,7 +6,7 @@ export const IngredientDetails = ({data}) => {
   return (
       <div className={`${style.container__main} mt-10 mb-15`}>
         <p className={`text text_type_main-large mb-8`}>Детали ингредиента</p>
-        <img className={style.image} src={data.image} />
+        <img className={style.image} src={data.image} alt={data.name} />
         <p className={`text text_type_main-medium mt-15 mb-2`}>{data.name}</p>
         <div className={`text text_type_main-default ${style.container__colories}`}>
             <div className={`mr-5`}>
@@ -31,5 +31,5 @@ export const IngredientDetails = ({data}) => {
 }
 
 IngredientDetails.propTypes = {
-  burgerIngredients: PropTypes.arrayOf(burgerPropTypes)
+  burgerIngredients: PropTypes.objectOf(burgerPropTypes)
 };
