@@ -1,11 +1,14 @@
 import {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './Modal.module.css';
 import ReactDOM from 'react-dom';
 import {ModalOverlay} from '../ModalOverlay/ModalOverlay';
 import {modalRoot} from '../../utils/document-elements';
+import {closeModal} from '../../services/actions/index';
 
-export const Modal = ({children, onClose}) => {
+export const Modal = ({children}) => {
+    const dispatch = useDispatch();
     useEffect(() => {
         document.addEventListener('keydown', closeByEscape);
         document.addEventListener('click', closeByClick);
@@ -21,7 +24,7 @@ export const Modal = ({children, onClose}) => {
         if (e.key && e.key !== 'Escape'){
             return;
         }
-        onClose();
+        dispatch(closeModal());
     }
 
     const closeByClick = (e) => {
@@ -29,7 +32,7 @@ export const Modal = ({children, onClose}) => {
         if (classList.filter(x=> x.includes('ModalOverlay')).length === 0  && e.target.tagName !== 'svg'){
             return;
         }
-        onClose();
+        dispatch(closeModal());
     }
 
     return ReactDOM.createPortal ( 

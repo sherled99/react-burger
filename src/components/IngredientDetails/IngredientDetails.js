@@ -1,8 +1,8 @@
+import {useSelector} from 'react-redux';
 import style from './IngredientDetails.module.css';
-import PropTypes from 'prop-types';
-import {burgerPropTypes} from '../../utils/prop-types';
 
-export const IngredientDetails = ({data}) => {
+export const IngredientDetails = () => {
+    const data = useSelector(state => state.initialReducer.burgerConfig);
   return (
       <div className={`${style.container__main} mt-10 mb-15`}>
         <p className={`text text_type_main-large mb-8`}>Детали ингредиента</p>
@@ -29,7 +29,3 @@ export const IngredientDetails = ({data}) => {
       </div>
   )
 }
-
-IngredientDetails.propTypes = {
-  burgerIngredients: PropTypes.objectOf(burgerPropTypes)
-};

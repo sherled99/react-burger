@@ -76,3 +76,7 @@
 .container__constructorElement{
     display: flex;
 }
+
+.position{
+    position: relative;
+}
