@@ -42,16 +42,10 @@ export function addOrder(ids) {
       type: GET_ORDER_REQUEST
     });
     createOrder(ids).then(res => {
-      if (res && res.success) {
-        dispatch({
-          type: GET_ORDER_SUCCESS,
-          data: res
-        });
-      } else {
-        dispatch({
-          type: GET_ORDER_FAILED
-        });
-      }
+      dispatch({
+        type: GET_ORDER_SUCCESS,
+        data: res
+      });
     })
     .catch(error => {
       dispatch({

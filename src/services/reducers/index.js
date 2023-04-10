@@ -36,7 +36,7 @@ export const initialReducer = (state = initialState, action) => {
       case GET_ORDER_REQUEST: {
         return {
           ...state,
-          burgerIngredientsRequest: true
+          orderRequest: true
         };
       }
       case GET_ORDER_SUCCESS: {

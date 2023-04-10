@@ -11,7 +11,7 @@ export const OrderDetails = () => {
   }));
   return (
       <div className={`${style.container__main} mt-30 mb-30`}>
-        { orderRequest && <p>Загрузка</p>}
+        { orderRequest && <p className={style.loader}>Загрузка</p>}
         { orderFailed && <p>{error}</p>}
         <p className={`text text_type_digits-large mb-8 ${style.text}`}>{order.number}</p>
         <p className={`text text_type_main-medium mb-15`}>идентификатор заказа</p>

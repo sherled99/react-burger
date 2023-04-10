@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import './index.css';
 import {App} from '../src/components/App/App';
 import { compose, createStore, applyMiddleware } from 'redux';
@@ -14,16 +13,15 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
-
 const store = createStore(rootReducer, enhancer);
 
-ReactDOM.render(
-  <React.StrictMode>
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
 );
+
 
 reportWebVitals();

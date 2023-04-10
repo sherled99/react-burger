@@ -91,11 +91,10 @@ export const BurgerConstructor = () =>
           handleDrop(itemId);
       },
     });
-    
     return (
     <div className={`mt-25`} ref={dropTarget}>
       <div className={`${style.container__main} mb-10`}>
-        {burgerConstructor.sort((a, b) => a.index - b.index).map((el, index) => <Record key={index} data={el} length={index} />)}
+        {burgerConstructor.sort((a, b) => a.index - b.index).map((el, index) => <Record key={el.Id} data={el} length={index} />)}
       </div>
       <div className={`${style.container__order}`}>
         <p className='text text_type_digits-medium mr-1'>{burgerConstructor.length !== 0 ? burgerConstructor.map(x => x.price).reduce((sum, x) => {return sum + x}) : 0}</p>

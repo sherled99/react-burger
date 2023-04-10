@@ -17,16 +17,10 @@ export function getIngredients() {
         type: GET_INGREDIENTS_REQUEST
       });
       getAllIngridients().then(res => {
-        if (res && res.success) {
           dispatch({
             type: GET_INGREDIENTS_SUCCESS,
             items: res.data
           });
-        } else {
-          dispatch({
-            type: GET_INGREDIENTS_FAILED
-          });
-        }
       })
       .catch(error => {
         dispatch({
