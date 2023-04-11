@@ -36,9 +36,11 @@ const Tabs = ({refs}) => {
 const Ingredients = ({data}) => {
   const dispatch = useDispatch();
   const burgerConstructor = useSelector(state => state.burgerState.burgerConstructor);
+  const _id = data._id;
+
   const [, dragRef] = useDrag({
     type: "ingridient",
-    item: data,
+    item: {_id},
     collect: monitor => ({
       isDrag: monitor.isDragging()
     })

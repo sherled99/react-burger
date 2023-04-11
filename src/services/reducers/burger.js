@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import {GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED, ADD_TO_BURGER_CONSTRUCTOR, CLEAR_BURGER_CONSTRUCTOR, 
   DELETE_TO_BURGER_CONSTRUCTOR, DELETE_BUN_TO_BURGER_CONSTRUCTOR, UPDATE_ORDER_IN_BURGER_CONSTRUCTOR} from '../actions/burger';
 
@@ -27,7 +26,7 @@ export const initialState = {
       case ADD_TO_BURGER_CONSTRUCTOR: {
         return {
           ...state,
-          burgerConstructor: [...state.burgerConstructor, {...action.ingredient, Id: uuidv4()}]
+          burgerConstructor: [...state.burgerConstructor, {...action.ingredient}]
         };
       }
       case DELETE_TO_BURGER_CONSTRUCTOR: {
