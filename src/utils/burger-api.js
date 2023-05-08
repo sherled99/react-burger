@@ -15,9 +15,13 @@ export const createOrder = (ingredients) => {
 }
 
 const _request = (url, options) => {
-    return fetch(url, options).then(_checkReponse);
+    return fetch(url, options).then(_checkReponse).then(res => _checkSuccess(res));
   }
 
 const _checkReponse = (res) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
   };
+
+const _checkSuccess = (res) => {
+    return res && res.success ? res : Promise.reject(`Ошибка: ${res}`);
+};

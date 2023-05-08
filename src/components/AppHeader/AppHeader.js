@@ -5,11 +5,15 @@ export const AppHeader = () => (
   <header className={`${style.header} mt-4 mb-4`}>
     <div className={style.container__left}>
       <div className={`${style.container__button} mt-4 ml-5 mr-5 mb-4`}>
-        <BurgerIcon type="primary" />
+        <div className={style.icon}>
+          <BurgerIcon type="primary" />
+        </div>
         <a href='#' className={`${style.btn__text} text text_type_main-default ml-2`}>Конструктор</a>
       </div>
       <div className={`${style.container__button} mt-4 ml-7 mr-5 mb-4`}>
-        <ListIcon type="secondary" />
+        <div className={style.icon}>
+          <ListIcon type="secondary" />
+        </div>
         <a href='#' className={`${style.btn__text} text text_type_main-default ml-2`}>Лента заказов</a>
       </div>
     </div>
@@ -18,7 +22,9 @@ export const AppHeader = () => (
     </div>
     <div className={style.container__right}>
       <div className={`${style.container__button} mt-4 ml-5 mr-5 mb-4`}>
-        <ProfileIcon type="secondary" />
+        <div className={style.icon}>
+          <ProfileIcon type="secondary" />
+        </div>
         <a href='#' className={`${style.profile__text} text text_type_main-default ml-2`}>Личный кабинет</a>
       </div>
     </div>
