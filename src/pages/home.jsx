@@ -2,28 +2,30 @@ import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {AppHeader} from '../AppHeader/AppHeader';
-import {BurgerIngredients} from '../BurgerIngredients/BurgerIngredients';
-import {BurgerConstructor} from '../BurgerConstructor/BurgerConstructor';
-import {Modal} from '../Modal/Modal';
-import {OrderDetails} from '../OrderDetails/OrderDetails';
-import {IngredientDetails} from '../IngredientDetails/IngredientDetails';
-import {getIngredients} from '../../services/actions/burger';
-import style from'./App.module.css';
+import {AppHeader} from '../components/AppHeader/AppHeader';
+import {BurgerIngredients} from '../components/BurgerIngredients/BurgerIngredients';
+import {BurgerConstructor} from '../components/BurgerConstructor/BurgerConstructor';
+import {Modal} from '../components/Modal/Modal';
+import {OrderDetails} from '../components/OrderDetails/OrderDetails';
+import {IngredientDetails} from '../components/IngredientDetails/IngredientDetails';
+import {getIngredients} from '../services/actions/burger';
+import style from'./home.module.css';
  
-export const App = () => {
+export function HomePage(){
   const dispatch = useDispatch();
+  const refreshToken = useSelector(state => state.authReducer.refreshToken);
   const {typeModal, isOpen} = useSelector(state => ({
     typeModal: state.initialReducer.typeModal,
     isOpen: state.initialReducer.isOpen
   }));
 
   useEffect(() => {
-    dispatch(getIngredients())
+    dispatch(getIngredients());
   }, [dispatch]);
 
+
   return (
-      <div className={`${style.App}`}>
+      <div className={`${style.home_page}`}>
         <AppHeader />
           <main className={`${style.container__burger} mb-10`}>
             <DndProvider backend={HTML5Backend}>
@@ -41,6 +43,5 @@ export const App = () => {
             }
           </section>
       </div>
-    
   );
 }

@@ -1,0 +1,96 @@
+import {useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
+import {logout, updateUser} from '../services/actions/auth';
+import { deleteCookie } from "../utils/cookie";
+import {
+    EmailInput,
+    PasswordInput,
+    Button,
+    Input
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import style from "./profile.module.css";
+import { AppHeader } from "../components/AppHeader/AppHeader";
+
+export function ProfilePage() {
+    const dispatch = useDispatch();
+    const refreshToken = useSelector(state => state.authReducer.refreshToken);
+    const accessToken = useSelector(state => state.authReducer.accessToken);
+    const user = useSelector(state => state.authReducer.user);
+    const error = useSelector(state => state.authReducer.error);
+    const [value, setValue] = useState(user.email);
+    const onChangeValue = (e) => {
+        setValueName(e.target.value);
+    };
+
+    const onChange = (e) => {
+        setValue(e.target.value);
+    };
+
+    const [valuePassword, setValuePassword] = useState("");
+    const onChangePassword = (e) => {
+        setValuePassword(e.target.value);
+    };
+
+    const [valueName, setValueName] = useState(user.name);
+
+    const onLogout = () => {
+        dispatch(logout(refreshToken));
+        deleteCookie('token');
+    }
+
+    const save = () => {
+        dispatch(updateUser(valueName, value, valuePassword, accessToken));
+    }
+
+    return (
+        <div>
+            <AppHeader />
+            <div className={style.profile_container}>
+                <div className={`${style.navigate_container} mr-15`}>
+                    <Link className={`${style.link} ${style.active}`}>Профиль</Link>
+                    <Link className={style.link}>История заказов</Link>
+                    <Link className={style.link} onClick={onLogout}>Выход</Link>
+                    <p className={style.text}>В этом разделе вы можете
+изменить свои персональные данные</p>
+                </div>
+                <div>
+                    <> {error && <div>{error}</div>} </>
+                    <Input
+                        type={"text"}
+                        placeholder={"Имя"}
+                        onChange={onChangeValue}
+                        value={valueName}
+                        size={"default"}
+                        extraClass="mb-6"
+                        icon="EditIcon"
+                    />
+                    <EmailInput
+                        onChange={onChange}
+                        value={value}
+                        name={"email"}
+                        isIcon={false}
+                        extraClass="mb-6"
+                        icon="EditIcon"
+                    />
+                    <PasswordInput
+                        onChange={onChangePassword}
+                        value={valuePassword}
+                        name={"password"}
+                        extraClass="mb-6"
+                        icon="EditIcon"
+                    />
+                        <Button
+                        htmlType="button"
+                        type="primary"
+                        size="medium"
+                        extraClass="mb-20"
+                        onClick={save}
+                    >
+                        Сохранить
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+}

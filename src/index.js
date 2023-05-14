@@ -1,6 +1,6 @@
 import {createRoot} from 'react-dom/client';
 import './index.css';
-import {App} from '../src/components/App/App';
+import App from './App';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
