@@ -45,12 +45,12 @@ export function clearResetLogin(){
   }
 }
 
-export function updateUser(name, email, password, accesstoken) {
+export function updateUser(name, email, password) {
   return function(dispatch) {
     dispatch({
       type: GET_UPDATE_USER_REQUEST
     });
-    sendUpdateUser(name, email, password, accesstoken).then(res => {
+    sendUpdateUser(name, email, password).then(res => {
       if (res.success){
         dispatch({
           type: GET_UPDATE_USER_SUCCESS,
@@ -133,12 +133,12 @@ export function login(email, password) {
   };
 }
 
-export function logout(token) {
+export function logout() {
   return function(dispatch) {
     dispatch({
       type: GET_LOGOUT_REQUEST
     });
-    sendLogout(token).then(() => {
+    sendLogout().then(() => {
         dispatch({
           type: GET_LOGOUT_SUCCESS
         });
@@ -172,51 +172,27 @@ export function refreshToken(token) {
   };
 }
 
-export function getUserRequest(token) {
+export function getUserRequest() {
   return function(dispatch) {
     dispatch({
       type: GET_USER_REQUEST
     });
-    if (!token && getCookie('token')){
-      sendRefreshToken(getCookie('token')).then((res) => {
-        dispatch({
-          type: GET_REFRESH_TOKEN_SUCCESS,
-          accessToken: res.accessToken
-        });
-          sendGetUserRequest(res.accessToken).then((res) => {
-            dispatch({
-              type: GET_USER_SUCCESS,
-              user: res && res.user ? res.user : {}
-            });
-        }).catch(error => {
-          dispatch({
-              type: GET_USER_FAILED,
-              error: error.message
-          });
-        });
-      }).catch(error => {
-        dispatch({
-            type: GET_USER_FAILED,
-            error: error.message
-        });
+    if (!getCookie('accessToken')){
+      dispatch({
+        type: GET_USER_FAILED
       });
-    } else if (!token && !getCookie('token')){
-          dispatch({
-            type: GET_USER_FAILED,
-            error: "Need autorization"
-        });
-    } else {
-        sendGetUserRequest(token).then((res) => {
-          dispatch({
-            type: GET_USER_SUCCESS,
-            user: res && res.user ? res.user : {}
-          });
-      }).catch(error => {
-        dispatch({
-            type: GET_USER_FAILED,
-            error: error.message
-        });
-      });
+      return;
     }
+    sendGetUserRequest().then((res) => {
+      dispatch({
+          type: GET_USER_SUCCESS,
+          user: res && res.user ? res.user : {}
+        });
+    }).catch(error => {
+      dispatch({
+          type: GET_USER_FAILED,
+          error: error.message
+      });
+    });
   };
 }

@@ -1,7 +1,7 @@
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, Navigate } from 'react-router-dom';
-import {login} from '../services/actions/auth';
+import {login, clearResetLogin} from '../services/actions/auth';
 import {
     EmailInput,
     PasswordInput,
@@ -13,6 +13,7 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 export function LoginPage() {
     const dispatch = useDispatch();
     const { state } = useLocation();
+    const location = useLocation();
     const error = useSelector(state => state.authReducer.error);
     const auth = useSelector(state => state.authReducer.user);
 
@@ -26,16 +27,17 @@ export function LoginPage() {
         setValuePassword(e.target.value);
     };
 
-    const onLogin = () => {
+    const onLogin = (e) => {
+        e.preventDefault();
         dispatch(login(value, valuePassword));
     }
 
+    useEffect(() => {
+        dispatch(clearResetLogin());
+    }, [dispatch]);
+
     if (auth.name) {
-      return (
-        <Navigate
-          to={'/'}
-        />
-      );
+      return <Navigate to={location?.state?.from || '/'} />
     }
 
     return (
@@ -44,6 +46,7 @@ export function LoginPage() {
             <div className={style.login_container}>
             <> {error && <div>{error}</div>} </>
                 <h2 className="mb-6">Вход</h2>
+                <form onSubmit={onLogin}>
                 <EmailInput
                     onChange={onChange}
                     value={value}
@@ -58,14 +61,14 @@ export function LoginPage() {
                     extraClass="mb-6"
                 />
                 <Button
-                    htmlType="button"
+                    htmlType="submit"
                     type="primary"
                     size="medium"
-                    extraClass="mb-20"
-                    onClick={onLogin}
+                    extraClass={`${style.form} mb-20`}
                 >
                     Войти
                 </Button>
+                </form>
                 <div
                     className={`${style.links_container} ${style.links_container_margin}`}
                 >

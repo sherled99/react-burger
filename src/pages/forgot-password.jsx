@@ -21,7 +21,8 @@ export function ForgotPasswordPage() {
         setValue(e.target.value);
     };
 
-    const onResetPassword = () => {
+    const onResetPassword = (e) => {
+        e.preventDefault();
         setError("");
         resetPassword(value)
         .then((res) => {
@@ -49,6 +50,7 @@ export function ForgotPasswordPage() {
             <div className={style.forgot_password_container}>
                 {error && <>{error}</>}
                 <h2 className="mb-6">Восстановление пароля</h2>
+                <form onSubmit={onResetPassword}>
                 <EmailInput
                     onChange={onChange}
                     value={value}
@@ -57,14 +59,14 @@ export function ForgotPasswordPage() {
                     extraClass="mb-6"
                 />
                 <Button
-                    htmlType="button"
+                    htmlType="submit"
                     type="primary"
                     size="medium"
-                    extraClass="mb-20"
-                    onClick={onResetPassword}
+                    extraClass={`${style.form} mb-20`}
                 >
                     Восстановить
                 </Button>
+                </form>
                 <div className={`${style.links_container}`}>
                     <p className={`${style.word} text text_type_main-default`}>Вспомнили пароль?</p>
                     <Link className={style.link} to='/login' state={state}>Войти</Link>

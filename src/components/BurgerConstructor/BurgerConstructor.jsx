@@ -2,9 +2,9 @@ import { v4 as uuidv4 } from 'uuid';
 import {useDispatch, useSelector} from 'react-redux';
 import {addOrder} from '../../services/actions/index';
 import { useDrop, useDrag } from "react-dnd";
-import { CurrencyIcon, ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useNavigate } from 'react-router-dom';
+import { CurrencyIcon, ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.css';
-import {openModal} from '../../services/actions/index';
 import {clearBurgerConstructor, addToBurgerConstructor, deleteIngridient, deleteBunIngridients, updateOrderInBurgerConstructor} from '../../services/actions/burger';
 
 const Record = ({data, length}) => {
@@ -58,6 +58,10 @@ const Record = ({data, length}) => {
 
 export const BurgerConstructor = () => 
   {
+    let {auth} = useSelector(state => ({
+      auth: state.authReducer.user
+    }));
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const burgerConstructor = useSelector(state => state.burgerState.burgerConstructor);
     const burgerIngredients = useSelector(state => state.burgerState.burgerIngredients);
@@ -65,8 +69,12 @@ export const BurgerConstructor = () =>
 
 
     const onOrder = () => {
+      if (!auth.name){
+        navigate('/login');
+        return;
+      }
       dispatch(addOrder((Array.from(burgerConstructor.map(x => x._id)))));
-      dispatch(openModal("Order"));
+      navigate("send_order", { state: { backgroundLocation: true } })
       dispatch(clearBurgerConstructor());
     }
 

@@ -33,7 +33,8 @@ export function RegisterPage() {
         setValueName(e.target.value);
     }
 
-    const onRegister = () => {
+    const onRegister = (e) => {
+        e.preventDefault();
         dispatch(register(valueEmail, valuePassword, valueName));
 
     }
@@ -52,6 +53,7 @@ export function RegisterPage() {
             <div className={style.register_container}>
             <> {error && <div>{error}</div>} </>
                 <h2 className="mb-6">Регистрация</h2>
+                <form onSubmit={onRegister}>
                 <Input
                     type={"text"}
                     placeholder={"Имя"}
@@ -75,14 +77,14 @@ export function RegisterPage() {
                     extraClass="mb-6"
                 />
                 <Button
-                    htmlType="button"
+                    htmlType="submit"
                     type="primary"
                     size="medium"
-                    extraClass="mb-20"
-                    onClick={onRegister}
+                    extraClass={`${style.form} mb-20`}
                 >
                     Зарегистрироваться
                 </Button>
+                </form>
                 <div className={`${style.links_container}`}>
                     <p className={`${style.word} text text_type_main-default`}>Уже зарегистрированы?</p>
                     <Link className={style.link} to='/login' state={state}>Войти</Link>

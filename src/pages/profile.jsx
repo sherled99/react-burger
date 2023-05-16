@@ -14,8 +14,6 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function ProfilePage() {
     const dispatch = useDispatch();
-    const refreshToken = useSelector(state => state.authReducer.refreshToken);
-    const accessToken = useSelector(state => state.authReducer.accessToken);
     const user = useSelector(state => state.authReducer.user);
     const error = useSelector(state => state.authReducer.error);
     const [value, setValue] = useState(user.email);
@@ -35,12 +33,14 @@ export function ProfilePage() {
     const [valueName, setValueName] = useState(user.name);
 
     const onLogout = () => {
-        dispatch(logout(refreshToken));
+        dispatch(logout());
         deleteCookie('token');
+        deleteCookie('accessToken');
     }
 
-    const save = () => {
-        dispatch(updateUser(valueName, value, valuePassword, accessToken));
+    const save = (e) => {
+        e.preventDefault();
+        dispatch(updateUser(valueName, value, valuePassword));
     }
 
     return (
@@ -49,13 +49,14 @@ export function ProfilePage() {
             <div className={style.profile_container}>
                 <div className={`${style.navigate_container} mr-15`}>
                     <Link className={`${style.link} ${style.active}`}>Профиль</Link>
-                    <Link className={style.link}>История заказов</Link>
+                    <Link to="/profile/orders" className={style.link}>История заказов</Link>
                     <Link className={style.link} onClick={onLogout}>Выход</Link>
                     <p className={style.text}>В этом разделе вы можете
 изменить свои персональные данные</p>
                 </div>
                 <div>
                     <> {error && <div>{error}</div>} </>
+                    <form onSubmit={save}>
                     <Input
                         type={"text"}
                         placeholder={"Имя"}
@@ -81,14 +82,14 @@ export function ProfilePage() {
                         icon="EditIcon"
                     />
                         <Button
-                        htmlType="button"
+                        htmlType="submit"
                         type="primary"
                         size="medium"
                         extraClass="mb-20"
-                        onClick={save}
                     >
                         Сохранить
                     </Button>
+                    </form>
                 </div>
             </div>
         </div>

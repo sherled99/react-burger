@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, Navigate} from 'react-router-dom';
 import {reset} from '../utils/burger-api';
-import { clearResetLogin } from "../services/actions/auth";
 import {
     PasswordInput,
     Button,
@@ -13,12 +12,9 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function ResetPasswordPage() {
     const { state } = useLocation();
-    const location = useLocation();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const auth = useSelector(state => state.authReducer.user);
     const resetLogin = useSelector(state => state.authReducer.resetLogin);
-    const [value, setValue] = useState("");
 
     const [valuePassword, setValuePassword] = useState("");
     const [valueToken, setValueToken] = useState('');
@@ -32,12 +28,12 @@ export function ResetPasswordPage() {
         setValueToken(e.target.value);
     };
 
-    const onReset = () => {
+    const onReset = (e) => {
+        e.preventDefault();
         setError("");
         reset(valuePassword, valueToken)
         .then((res) => {
             if (res.success){
-                dispatch(clearResetLogin());
                 navigate('/login');
             } else {
                 setError(res.message);
@@ -49,18 +45,18 @@ export function ResetPasswordPage() {
 
     
     if (auth.name) {
+      return (
+        <Navigate
+          to={'/'}
+        />
+      );
+    }
+    if (!resetLogin) {
         return (
           <Navigate
-            to={'/'}
+            to={'/forgot-password'}
           />
         );
-      }
-    if (!resetLogin) {
-          return (
-            <Navigate
-              to={'/forgot-password'}
-            />
-          );
     }
 
     return (
@@ -69,6 +65,7 @@ export function ResetPasswordPage() {
             <div className={style.reset_password_container}>
                 {error && <>{error}</>}
                 <h2 className="mb-6">Восстановление пароля</h2>
+                <form onSubmit={onReset}>
                 <PasswordInput
                     value={valuePassword}
                     onChange={onChangeValuePassword}
@@ -85,14 +82,14 @@ export function ResetPasswordPage() {
                     extraClass="mb-6"
                 />
                 <Button
-                    htmlType="button"
+                    htmlType="submit"
                     type="primary"
                     size="medium"
-                    extraClass="mb-20"
-                    onClick={onReset}
+                    extraClass={`${style.form} mb-20`}
                 >
                     Сохранить
                 </Button>
+                </form>
                 <div className={`${style.links_container}`}>
                     <p className={`${style.word} text text_type_main-default`}>Вспомнили пароль?</p>
                     <Link className={style.link} to='/login' state={state}>Войти</Link>

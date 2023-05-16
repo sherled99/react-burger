@@ -108,7 +108,7 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case GET_UPDATE_USER_SUCCESS: {
-      return { ...state, userUpdateRequest: false, user: action.user, userSuccess: true, userUpdateFailed: false };
+      return { ...state, userUpdateRequest: false, user: action.user, userSuccess: true, userUpdateFailed: false, error: ""};
     }
     case GET_UPDATE_USER_FAILED: {
       return { ...state, userUpdateFailed: true, userUpdateRequest: false, error: action.error, userSuccess: true };

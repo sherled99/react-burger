@@ -1,18 +1,18 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import {useSelector, useDispatch } from "react-redux";
 import { getUserRequest } from '../services/actions/auth';
 
 export const UnProtectedRouteElement = ({ element }) => {
-  let {auth, success, accessToken} = useSelector(state => ({
+  const location = useLocation();
+  let {auth, success} = useSelector(state => ({
     auth: state.authReducer.user,
-    success: state.authReducer.userSuccess,
-    accessToken: state.authReducer.accessToken
+    success: state.authReducer.userSuccess
   }));
   const dispatch = useDispatch();
 
   const init = () => {
-    dispatch(getUserRequest(accessToken));
+    dispatch(getUserRequest());
   };
 
   useEffect(() => {
@@ -23,5 +23,5 @@ export const UnProtectedRouteElement = ({ element }) => {
     return null;
   }
   
-  return auth && auth.name ? <Navigate to="/"/> : element;
+  return auth && auth.name ? <Navigate to={location?.state?.from || '/'} /> : element;
 }

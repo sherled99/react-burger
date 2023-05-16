@@ -21,7 +21,6 @@ export const initialReducer = (state = initialState, action) => {
       case OPEN_MODAL: {
         return {
           ...state,
-          isOpen: true,
           burgerConfig: action.burgerConfig,
           typeModal: action.typeModal
         };
