@@ -3,11 +3,13 @@ import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPag
 import { ProtectedRouteElement } from './components/protected-route';
 import { UnProtectedRouteElement } from './components/unprotected-route';
 import { Modal } from './components/Modal/Modal';
+import { AppHeader } from './components/AppHeader/AppHeader';
 
 export default function App() {
     let location = useLocation();
     return (
           <div>
+            <AppHeader/>
             <Routes location={location?.state?.backgroundLocation || location}>
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<UnProtectedRouteElement element={<LoginPage />}/>} />

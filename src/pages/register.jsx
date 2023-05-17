@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useLocation, Navigate } from 'react-router-dom';
 import {register} from '../services/actions/auth';
 import { getCookie } from "../utils/cookie";
 import {
@@ -10,13 +10,11 @@ import {
     Input
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./register.module.css";
-import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function RegisterPage() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.authReducer.user);
     const error = useSelector(state => state.authReducer.error);
-    const navigate = useNavigate();
     const { state } = useLocation();
     const [valueEmail, setValueEmail] = useState("");
     const onChangeEmail = (e) => {
@@ -49,7 +47,6 @@ export function RegisterPage() {
 
     return (
         <div>
-            <AppHeader />
             <div className={style.register_container}>
             <> {error && <div>{error}</div>} </>
                 <h2 className="mb-6">Регистрация</h2>

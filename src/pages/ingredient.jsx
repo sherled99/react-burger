@@ -3,7 +3,6 @@ import style from './ingredient.module.css';
 import { useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { getIngredients } from '../services/actions/burger';
-import { AppHeader } from '../components/AppHeader/AppHeader';
 
 export const IngredientPage = () => {
     const dispatch = useDispatch();
@@ -29,7 +28,6 @@ export const IngredientPage = () => {
 
   return (
     <>
-        <AppHeader />
         <div className={`${style.container__main} mt-10 mb-15`}>
         <p className={`text text_type_main-large mb-8`}>Детали ингредиента</p>
         <img className={style.image} src={data.image} alt={data.name} />

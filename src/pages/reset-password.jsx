@@ -8,7 +8,6 @@ import {
     Input
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./reset-password.module.css";
-import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function ResetPasswordPage() {
     const { state } = useLocation();
@@ -61,7 +60,6 @@ export function ResetPasswordPage() {
 
     return (
         <div>
-            <AppHeader />
             <div className={style.reset_password_container}>
                 {error && <>{error}</>}
                 <h2 className="mb-6">Восстановление пароля</h2>

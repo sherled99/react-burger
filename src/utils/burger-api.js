@@ -73,7 +73,7 @@ export const login = (email, password) => {
 
 export const updateUser = (name, email, password) => {
   const accessToken = getCookie("accessToken");
-  return _request(`${_url}/auth/user`, {
+  return _fetchWithRefresh(`${_url}/auth/user`, {
     method: "PATCH",
     body: password
       ? JSON.stringify({ name, email, password })
@@ -94,6 +94,7 @@ export const refreshToken = () => {
       "Content-Type": "application/json",
     },
   }).then((res) => {
+    debugger
     if (!res.refreshToken) {
       return res;
     } else {
@@ -131,8 +132,8 @@ const _fetchWithRefresh = async (url, options) => {
     .then((res) => _checkReponse(res))
     .catch((err) => {
       if (err.message === "jwt expired") {
-        return refreshToken().then((res) => {
-          options.headers.authorization = res.accessToken;
+        return refreshToken().then(() => {
+          options.headers.Authorization = getCookie("accessToken");
           return fetch(url, options).then((res) => _checkReponse(res));
         });
       } else {

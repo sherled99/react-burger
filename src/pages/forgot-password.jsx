@@ -8,7 +8,6 @@ import {
     Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./forgot-password.module.css";
-import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function ForgotPasswordPage() {
     const { state } = useLocation();
@@ -46,7 +45,6 @@ export function ForgotPasswordPage() {
 
     return (
         <div>
-            <AppHeader />
             <div className={style.forgot_password_container}>
                 {error && <>{error}</>}
                 <h2 className="mb-6">Восстановление пароля</h2>

@@ -10,7 +10,6 @@ import {
     Input
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./profile.module.css";
-import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function ProfilePage() {
     const dispatch = useDispatch();
@@ -45,7 +44,6 @@ export function ProfilePage() {
 
     return (
         <div>
-            <AppHeader />
             <div className={style.profile_container}>
                 <div className={`${style.navigate_container} mr-15`}>
                     <Link className={`${style.link} ${style.active}`}>Профиль</Link>

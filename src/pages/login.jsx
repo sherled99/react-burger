@@ -8,7 +8,6 @@ import {
     Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./login.module.css";
-import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function LoginPage() {
     const dispatch = useDispatch();
@@ -42,7 +41,6 @@ export function LoginPage() {
 
     return (
         <div>
-            <AppHeader />
             <div className={style.login_container}>
             <> {error && <div>{error}</div>} </>
                 <h2 className="mb-6">Вход</h2>

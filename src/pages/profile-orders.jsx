@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {logout} from '../services/actions/auth';
 import { deleteCookie } from "../utils/cookie";
 import style from "./profile-orders.module.css"
-import { AppHeader } from "../components/AppHeader/AppHeader";
 
 export function ProfileOrdersPage() {
     const dispatch = useDispatch();
@@ -15,7 +14,6 @@ export function ProfileOrdersPage() {
 
     return (
         <div>
-            <AppHeader />
             <div className={style.profile_container}>
                 <div className={`${style.navigate_container} mr-15`}>
                     <Link to="/profile" className={style.link}>Профиль</Link>
