@@ -94,7 +94,6 @@ export const refreshToken = () => {
       "Content-Type": "application/json",
     },
   }).then((res) => {
-    debugger
     if (!res.refreshToken) {
       return res;
     } else {
