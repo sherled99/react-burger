@@ -5,6 +5,7 @@ import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger
 import style from './BurgerIngredients.module.css';
 import {openModal, setTab} from '../../services/actions/index';
 import {addToBurgerConstructor} from '../../services/actions/burger';
+import { useNavigate } from 'react-router-dom';
 
 const Tabs = ({refs}) => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const Tabs = ({refs}) => {
 
 const Ingredients = ({data}) => {
   const dispatch = useDispatch();
+  const navigation = useNavigate();
   const burgerConstructor = useSelector(state => state.burgerState.burgerConstructor);
   const _id = data._id;
 
@@ -50,6 +52,7 @@ const Ingredients = ({data}) => {
 
   const onOrder = () => {
     dispatch(openModal("Burger", data));
+    navigation(`/ingredients/${data._id}`, { state: { backgroundLocation: true } })
   }
 
   const addIngridient = () => {

@@ -2,12 +2,12 @@
     text-decoration: none;
 }
 
-.profile__text{
+.link{
     composes: url;
     color:#8585AD;
 }
 
-.btn__text{
+.link__text{
     composes: url;
     color:#F2F2F3;
 }
