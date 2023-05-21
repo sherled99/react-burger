@@ -6,11 +6,13 @@ export const getAllIngridients = () => {
 };
 
 export const createOrder = (ingredients) => {
-  return _request(`${_url}/orders`, {
+  const accessToken = getCookie("accessToken");
+  return _fetchWithRefresh(`${_url}/orders`, {
     method: "POST",
     body: JSON.stringify({ ingredients: ingredients }),
     headers: {
       "Content-Type": "application/json",
+      Authorization: accessToken,
     },
   });
 };

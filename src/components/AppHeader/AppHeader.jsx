@@ -16,9 +16,9 @@ export const AppHeader = () => {
       </div>
       <div className={`${style.container__button} mt-4 ml-7 mr-5 mb-4`}>
         <div className={style.icon}>
-          <ListIcon type={location.pathname.split("/")[1] === "orders" ? "primary" : "secondary"} />
+          <ListIcon type={location.pathname.split("/")[1] === "feed" ? "primary" : "secondary"} />
         </div>
-        <Link to='/orders' className={`${location.pathname.split("/")[1] === "orders" ? style.link__text : style.link} text text_type_main-default ml-2`}>Лента заказов</Link>
+        <Link to='/feed' className={`${location.pathname.split("/")[1] === "feed" ? style.link__text : style.link} text text_type_main-default ml-2`}>Лента заказов</Link>
       </div>
     </div>
     <div className={`${style.logo}`}>

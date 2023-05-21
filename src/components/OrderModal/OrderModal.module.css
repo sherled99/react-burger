@@ -1,0 +1,83 @@
+.container__main{
+    flex-flow: column;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.imgs_container{
+    max-height: 500px;
+    overflow-y: scroll;
+    width: 100%;
+}
+
+.imgs_container::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+  }
+  
+  .imgs_container::-webkit-scrollbar-thumb {
+    border: 3px solid #8585AD;
+    background-color: #8585AD;
+  }
+  
+  .imgs_container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+    background-color: #2F2F37;
+  }
+
+.img_container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.image{
+    width: 64px;
+    height: 64px;
+    background: #131316;
+    border-radius: 100px;
+    object-fit: cover;
+    border: 2px #801AB2 solid;
+}
+
+.title{
+    text-align: left;
+}
+
+.number{
+    align-self: center;
+}
+
+.status_done{
+    color: #00CCCC;
+}
+
+.color_text{
+    color: #8585AD;
+}
+
+.container_footer{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.sum_container{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 15px;
+}
+
+.sumIngredient_container{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-right: 15px;
+}
+
+.ingredient_name{
+    width: 100%;
+}
