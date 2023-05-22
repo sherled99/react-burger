@@ -3,7 +3,8 @@ import {
     WS_CONNECTION_SUCCESS,
     WS_CONNECTION_ERROR,
     WS_CONNECTION_CLOSED,
-    WS_GET_MESSAGE
+    WS_GET_MESSAGE,
+    WS_CONNECTION_CLOSE
   } from '../actions/feed';
   
   const initialState = {
@@ -28,6 +29,14 @@ import {
       case WS_CONNECTION_CLOSED:
         return {
           ...state,
+          messages: [],
+          wsConnected: false
+        };
+
+      case WS_CONNECTION_CLOSE:
+        return {
+          ...state,
+          messages: [],
           wsConnected: false
         };
   

@@ -8,7 +8,7 @@ import { AppHeader } from './components/AppHeader/AppHeader';
 export default function App() {
     const location = useLocation();
     let background = location.pathname.replace(/\/\w+$/, '');
-    if (background === "/ingredients"){
+    if (background === "/ingredients" || location.pathname === "/send_order"){
       background = "/";
     }
     return (

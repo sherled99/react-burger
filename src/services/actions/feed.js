@@ -5,11 +5,14 @@ export const WS_CONNECTION_CLOSED = 'WS_CONNECTION_CLOSED';
 export const WS_GET_MESSAGE = 'WS_GET_MESSAGE';
 export const WS_SEND_MESSAGE = 'WS_SEND_MESSAGE';
 export const WS_USER_NAME_UPDATE = 'WS_USER_NAME_UPDATE';
+export const WS_CONNECTION_CLOSE = 'WS_CONNECTION_CLOSE';
 
 
-export const wsConnectionSuccess = () => {
+export const wsConnectionSuccess = (connection) => {
+  debugger
     return {
-      type: WS_CONNECTION_SUCCESS
+      type: WS_CONNECTION_SUCCESS,
+      connection: connection
     };
   };
   
@@ -39,9 +42,15 @@ export const wsConnectionSuccess = () => {
     };
   };
   
-  export const wsUserNameUpdate = userName => {
+  export const wsUserNameUpdate = message => {
     return {
       type: WS_USER_NAME_UPDATE,
-      payload: userName
+      payload: message
+    };
+  };
+
+  export const wsUserClose = () => {
+    return {
+      type: WS_CONNECTION_CLOSE
     };
   };

@@ -3,20 +3,35 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import style from './OrderModal.module.css';
 import { getStatus, getDate } from '../Order/Order';
 import {useParams, Outlet} from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
-export const OrderModal = ({data}) => {
+const getIngredientsInOrder = (ingredients) => {
+  const idCountMap = new Map();
+  ingredients.forEach(obj => {
+    const _id = obj;
+    if (idCountMap.has(_id)) {
+      idCountMap.set(_id, idCountMap.get(_id) + 1);
+    } else {
+      idCountMap.set(_id, 1);
+    }
+  });
+
+  return Array.from(idCountMap);
+}
+
+export const OrderModal = () => {
   const { id } = useParams();
   const ingredients = useSelector(state => state.burgerState.burgerIngredients);
-  const message = data[data.length - 1];
+  const wsReducer = useSelector(state => state.wsReducer.messages);
+  const message = wsReducer[wsReducer.length - 1];
   const order = message?.orders?.find(x => x._id === id);
-  
+  const ingredientsInOrder = order?.ingredients && getIngredientsInOrder(order.ingredients);
+
   let sum = 0;
     order?.ingredients?.map((i) => { 
       sum += ingredients?.find(el => el._id === i)?.price;
     })
-
-  if (!order){
+  
+  if (!order || !ingredients){
     return;
   }
   return (
@@ -26,8 +41,8 @@ export const OrderModal = ({data}) => {
         <p className={`${order.status === 'done' && style.status_done} text text_type_main-small mb-15 mt-3`}>{getStatus(order.status)}</p>
         <p className='text text text_type_main-medium'>Состав:</p>
         <div className={style.imgs_container}>
-            {data.length > 0 && order.ingredients.map((i, index) => {   
-              return <Image ingredientId={i} data={ingredients} key={uuidv4()} /> 
+            {ingredientsInOrder?.map((i, index) => {   
+              return <Image ingredients={i} message={ingredients} data={ingredients} key={index} /> 
             })}
         </div>
         <div className={style.container_footer}>
@@ -42,8 +57,8 @@ export const OrderModal = ({data}) => {
   )
 }
 
-const Image = ({ingredientId, data}) => {
-    const ingredient = data.find(el => el._id === ingredientId);
+const Image = ({ingredients, data}) => {
+    const ingredient = data?.find(el => el._id === ingredients[0]);
     let src = "";
     if (ingredient){
       src = ingredient.image_mobile;
@@ -52,9 +67,9 @@ const Image = ({ingredientId, data}) => {
     return (
         <div className={style.img_container}>
             <img src={src} className={`${style.image} mr-4`}/>
-            <p className={`${style.ingredient_name} text text text_type_main-default`}>{ingredient.name}</p>
+            <p className={`${style.ingredient_name} text text text_type_main-default`}>{ingredient?.name}</p>
             <div className={style.sumIngredient_container}>
-                <p className='text text_type_digits-default mr-2'>{ingredient.price}</p>
+                <p className='text text_type_digits-default mr-2'>{ingredients[1] > 1 ? `${ingredients[1]} x ${ingredient.price}` : `${ingredient.price}`}</p>
                 <CurrencyIcon type="primary" />
             </div>
         </div>

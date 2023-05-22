@@ -8,21 +8,16 @@ import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import { rootReducer } from './services/reducers';
 import { socketMiddleware } from './services/middleware';
-import { WS_CONNECTION_CLOSED,
+import { 
+  WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
-  WS_SEND_MESSAGE } from './services/actions/feed';
+  WS_SEND_MESSAGE,
+  WS_CONNECTION_CLOSE
+ } from './services/actions/feed';
 import thunk from 'redux-thunk';
-
-import { 
-  WS_USER_CONNECTION_START,
-  WS_USER_CONNECTION_SUCCESS,
-  WS_USER_CONNECTION_ERROR,
-  WS_USER_CONNECTION_CLOSED,
-  WS_USER_GET_MESSAGE,
- } from './services/actions/personal_feed';
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders';
 const wsActions = {
@@ -32,12 +27,7 @@ const wsActions = {
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
   onMessage: WS_GET_MESSAGE,
-
-  wsUsrInit: WS_USER_CONNECTION_START,
-  onUsrOpen: WS_USER_CONNECTION_SUCCESS,
-  onUsrClose: WS_USER_CONNECTION_CLOSED,
-  onUsrError: WS_USER_CONNECTION_ERROR,
-  onUsrMessage: WS_USER_GET_MESSAGE
+  wsClose: WS_CONNECTION_CLOSE
 };
 
 const composeEnhancers =

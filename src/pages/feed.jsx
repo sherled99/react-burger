@@ -1,9 +1,8 @@
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { WS_CONNECTION_START } from '../services/actions/feed';
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from '../services/actions/feed';
 import { Order } from '../components/Order/Order';
 import style from'./feed.module.css';
-import { getIngredients } from '../services/actions/burger';
  
 export function FeedPage(){
   const dispatch = useDispatch();
@@ -12,10 +11,11 @@ export function FeedPage(){
   const message = data[data.length - 1];
 
   useEffect(() => {
-    if (ingredients.length === 0){
-      dispatch(getIngredients());
-    }
-    dispatch({ type: WS_CONNECTION_START });
+    dispatch({ type: WS_CONNECTION_START, connection: "/feed"});
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSE});
+
+    };
   }, [dispatch, ingredients]);
 
   if (ingredients.length === 0){

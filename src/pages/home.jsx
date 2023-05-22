@@ -12,7 +12,6 @@ export function HomePage(){
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getIngredients());
     dispatch(getUserRequest());
   }, [dispatch]);
 

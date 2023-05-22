@@ -3,20 +3,24 @@ import { getCookie } from "../../utils/cookie";
 export const socketMiddleware = (wsUrl, wsActions) => {
     return store => {
       let socket = null;
-      let usrSocket = null;
 
       return next => action => {
         const { dispatch } = store;
-        const { type } = action;
-        const { wsInit, onOpen, onClose, onError, onMessage, wsUsrInit, onUsrOpen, onUsrClose, onUsrError, onUsrMessage } = wsActions;
+        const { type, connection } = action;
+        const { wsInit, onOpen, onClose, onError, onMessage, wsClose } = wsActions;
         if (type === wsInit) {
-          socket = new WebSocket(`${wsUrl}/all`);
+          if (connection === "/feed"){
+            socket = new WebSocket(`${wsUrl}/all`);
+          } else {
+            const accessToken = getCookie("accessToken");
+            const token = accessToken.split("Bearer ")[1];
+            socket = new WebSocket(`${wsUrl}?token=${token}`);
+          }
         }
-        if (type === wsUsrInit) {
-          const accessToken = getCookie("accessToken");
-          const token = accessToken.split("Bearer ")[1];
-          usrSocket = new WebSocket(`${wsUrl}?token=${token}`);
+        else if (type === wsClose){
+          socket.close();
         }
+
         if (socket) {
           socket.onopen = event => {
             dispatch({ type: onOpen, payload: event });
@@ -39,29 +43,6 @@ export const socketMiddleware = (wsUrl, wsActions) => {
           };
         }
 
-        if (usrSocket){
-          
-          usrSocket.onopen = event => {
-            dispatch({ type: onUsrOpen, payload: event });
-          };
-  
-          usrSocket.onerror = event => {
-            dispatch({ type: onUsrError, payload: event });
-          };
-  
-          usrSocket.onmessage = event => {
-            const { data } = event;
-            const parsedData = JSON.parse(data);
-            const { success, ...restParsedData } = parsedData;
-  
-            dispatch({ type: onUsrMessage, payload: restParsedData });
-          };
-  
-          usrSocket.onclose = event => {
-            dispatch({ type: onUsrClose, payload: event });
-          };
-        }
-  
         next(action);
       };
     };

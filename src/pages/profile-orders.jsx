@@ -1,15 +1,14 @@
 import { useDispatch, useSelector} from "react-redux";
 import {useEffect} from 'react';
-import { WS_USER_CONNECTION_START } from "../services/actions/personal_feed";
 import { Link } from 'react-router-dom';
 import {logout} from '../services/actions/auth';
 import { deleteCookie } from "../utils/cookie";
 import style from "./profile-orders.module.css";
 import { Order } from "../components/Order/Order";
-import { getIngredients } from "../services/actions/burger";
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from "../services/actions/feed";
 
 export function ProfileOrdersPage() {
-    const data = useSelector(state => state.personlFeedReducer.messages);
+    const data = useSelector(state => state.wsReducer.messages);
     const ingredients = useSelector(state => state.burgerState.burgerIngredients);
     const message = data[data.length - 1];
     const dispatch = useDispatch();
@@ -20,11 +19,12 @@ export function ProfileOrdersPage() {
     }
 
     useEffect(() => {
-      if (ingredients.length === 0){
-        dispatch(getIngredients());
-      }
-      dispatch({ type: WS_USER_CONNECTION_START });
-    }, [dispatch, ingredients]);
+        dispatch({ type: WS_CONNECTION_START, connection: "/profile"});
+        return () => {
+          dispatch({ type: WS_CONNECTION_CLOSE});
+    
+        };
+      }, [dispatch, ingredients]);
 
     if (ingredients.length === 0){
       return null;
