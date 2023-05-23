@@ -11,7 +11,7 @@ export function FeedPage(){
   const message = data[data.length - 1];
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, connection: "/feed"});
+    dispatch({ type: WS_CONNECTION_START, payload: "/all"});
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSE});
 

@@ -2,16 +2,11 @@ import {useEffect} from 'react';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './Modal.module.css';
 import ReactDOM from 'react-dom';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {ModalOverlay} from '../ModalOverlay/ModalOverlay';
 import {modalRoot} from '../../utils/document-elements';
-import { IngredientDetails } from '../IngredientDetails/IngredientDetails';
-import { OrderDetails } from '../OrderDetails/OrderDetails';
-import { OrderModal } from '../OrderModal/OrderModal';
 
-export const Modal = () => {
-    const location = useLocation();
-    const type = location.pathname.split('/');
+export const Modal = ({children}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,11 +37,7 @@ export const Modal = () => {
             <>
                 <ModalOverlay/>
                 <div className={`${style.container__main}`}>
-                    {type.length >2 && type[1] === "ingredients" && <IngredientDetails/>}
-                    {type.length >= 2 && type[1] === "send_order" && <OrderDetails/>}
-                    {type.length >2 && type[1] === "feed" && <OrderModal />}
-                    {type.length >2 && type[1] === "profile" && <OrderModal/>}
-                    
+                    {children}
                     <div className={`mr-10 mt-15 ${style.square}`}>
                         <CloseIcon type="primary" />
                     </div>

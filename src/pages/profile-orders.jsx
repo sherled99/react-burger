@@ -6,6 +6,7 @@ import { deleteCookie } from "../utils/cookie";
 import style from "./profile-orders.module.css";
 import { Order } from "../components/Order/Order";
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSE } from "../services/actions/feed";
+import { getCookie } from "../utils/cookie";
 
 export function ProfileOrdersPage() {
     const data = useSelector(state => state.wsReducer.messages);
@@ -19,7 +20,9 @@ export function ProfileOrdersPage() {
     }
 
     useEffect(() => {
-        dispatch({ type: WS_CONNECTION_START, connection: "/profile"});
+        const accessToken = getCookie("accessToken");
+        const token = accessToken.split("Bearer ")[1];
+        dispatch({ type: WS_CONNECTION_START, payload: `?token=${token}`});
         return () => {
           dispatch({ type: WS_CONNECTION_CLOSE});
     

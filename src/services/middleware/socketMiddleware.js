@@ -6,16 +6,10 @@ export const socketMiddleware = (wsUrl, wsActions) => {
 
       return next => action => {
         const { dispatch } = store;
-        const { type, connection } = action;
+        const { type, payload } = action;
         const { wsInit, onOpen, onClose, onError, onMessage, wsClose } = wsActions;
         if (type === wsInit) {
-          if (connection === "/feed"){
-            socket = new WebSocket(`${wsUrl}/all`);
-          } else {
-            const accessToken = getCookie("accessToken");
-            const token = accessToken.split("Bearer ")[1];
-            socket = new WebSocket(`${wsUrl}?token=${token}`);
-          }
+          socket = new WebSocket(`${wsUrl}${payload}`);
         }
         else if (type === wsClose){
           socket.close();

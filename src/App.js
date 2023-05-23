@@ -4,6 +4,9 @@ import { ProtectedRouteElement } from './components/protected-route';
 import { UnProtectedRouteElement } from './components/unprotected-route';
 import { Modal } from './components/Modal/Modal';
 import { AppHeader } from './components/AppHeader/AppHeader';
+import { IngredientDetails } from './components/IngredientDetails/IngredientDetails';
+import { OrderDetails } from './components/OrderDetails/OrderDetails';
+import { OrderModal } from './components/OrderModal/OrderModal';
 
 export default function App() {
     const location = useLocation();
@@ -30,10 +33,10 @@ export default function App() {
 
               {location?.state?.backgroundLocation && (
                 <Routes location={location}>
-                  <Route path="/ingredients/:id" element={<Modal />} />
-                  <Route path="/send_order" element={<Modal />} />
-                  <Route path="/feed/:id" element={<Modal />} />
-                  <Route path="/profile/orders/:id" element={<Modal />} />
+                  <Route path="/ingredients/:id" element={<Modal children={<IngredientDetails />} />} />
+                  <Route path="/send_order" element={<Modal children={<OrderDetails />} />} />
+                  <Route path="/feed/:id" element={<Modal children={<OrderModal />}  />} />
+                  <Route path="/profile/orders/:id" element={<Modal children={<OrderModal />} />} />
                 </Routes>
               )}
           </div>
