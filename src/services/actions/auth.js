@@ -28,7 +28,6 @@ export const GET_UPDATE_USER_FAILED = 'GET_UPDATE_USER_FAILED';
 export const RESET_LOGIN = 'RESET_LOGIN';
 export const CLEAR_RESET_LOGIN = 'CLEAR_RESET_LOGIN';
 
-
 export function resetLogin(){
   return function(dispatch) {
     dispatch({

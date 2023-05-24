@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {burgerReducer} from './burger';
 import { authReducer } from './auth';
+import { wsReducer } from './feed';
 import {OPEN_MODAL, CLOSE_MODAL, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED, SET_TAB} from '../actions/index';
 
 const initialState = {
@@ -66,5 +67,6 @@ export const initialReducer = (state = initialState, action) => {
 export const rootReducer = combineReducers({
     initialReducer: initialReducer,
     burgerState: burgerReducer,
-    authReducer: authReducer
+    authReducer: authReducer,
+    wsReducer: wsReducer
 });

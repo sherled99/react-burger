@@ -1,24 +1,13 @@
 import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './Modal.module.css';
 import ReactDOM from 'react-dom';
-import { useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {ModalOverlay} from '../ModalOverlay/ModalOverlay';
 import {modalRoot} from '../../utils/document-elements';
-import { getIngredients } from '../../services/actions/burger';
-import { openModal } from '../../services/actions';
-import { IngredientDetails } from '../IngredientDetails/IngredientDetails';
-import { OrderDetails } from '../OrderDetails/OrderDetails';
 
-export const Modal = () => {
-    const location = useLocation();
-    const type = location.pathname.split('/');
-    const ingredients = useSelector(state => state.burgerState.burgerIngredients);
-    const burgerConfig = useSelector(state => state.initialReducer.burgerConfig);
-    const dispatch = useDispatch();
+export const Modal = ({children}) => {
     const navigate = useNavigate();
-    const { id } = useParams();
 
     useEffect(() => {
         document.addEventListener('keydown', closeByEscape);
@@ -28,17 +17,6 @@ export const Modal = () => {
             document.removeEventListener('click', closeByClick);
         }
     })
-
-    useEffect(() => {
-        if (ingredients.length === 0 && type.length > 2 && type[1] === "ingredients"){
-            if (Object.keys(burgerConfig).length === 0){
-                dispatch(getIngredients());
-            } else {
-                const data = ingredients.find(x => x._id === id);
-                dispatch(openModal("Burger", data)); 
-            }
-        }
-      }, [ingredients]);
     
     const closeByEscape = (e) => {
         if (e.key && e.key !== 'Escape'){
@@ -54,14 +32,12 @@ export const Modal = () => {
         }
         navigate(-1);
     }
-
     return ReactDOM.createPortal ( 
         ( 
             <>
                 <ModalOverlay/>
                 <div className={`${style.container__main}`}>
-                    {type.length >2 && type[1] === "ingredients" ? <IngredientDetails/> : <OrderDetails/>}
-                    
+                    {children}
                     <div className={`mr-10 mt-15 ${style.square}`}>
                         <CloseIcon type="primary" />
                     </div>
