@@ -32,6 +32,11 @@
     line-height: 30px;
     color: #8585AD;
     text-decoration: none;
+    margin: 0;
+}
+
+.link:hover {
+    cursor: pointer;
 }
 
 .text{
