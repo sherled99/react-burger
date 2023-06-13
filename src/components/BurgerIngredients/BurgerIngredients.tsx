@@ -58,7 +58,7 @@ const Ingredients = ({ data }: { data: IIngredient }) => {
     })
   });
 
-  const count = burgerConstructor.filter((x: IIngredientDrop) => x._id === data._id).length;
+  const count = burgerConstructor.filter(x => x._id === data._id).length;
 
   const onOrder = () => {
     dispatch(openModal("Burger", data));
@@ -110,7 +110,7 @@ const Menu = ({ data, title }: { data: Array<IIngredient>, title: string }) => {
         {title}
       </h2>
       <div className={`${style.container__ingredient}`}>
-        {data.map((el: IIngredient) => <Ingredients key={el._id} data={el} />)}
+        {data.map(el => <Ingredients key={el._id} data={el} />)}
       </div>
     </div>
   );
@@ -161,13 +161,13 @@ export const BurgerIngredients = () => {
         {burgerIngredientsIsLoad && <p> ЗАГРУЗКА </p>}
         {burgerIngredientsIsFail && <p> {error} </p>}
         <div ref={bunRef}>
-          <Menu data={burgerIngredients.filter((x: IIngredient) => x.type === 'bun')} title='Булки' />
+          <Menu data={burgerIngredients.filter(x => x.type === 'bun')} title='Булки' />
         </div>
         <div ref={sauceRef}>
-          <Menu data={burgerIngredients.filter((x: IIngredient) => x.type === 'sauce')} title='Соусы' />
+          <Menu data={burgerIngredients.filter(x => x.type === 'sauce')} title='Соусы' />
         </div>
         <div ref={mainRef}>
-          <Menu data={burgerIngredients.filter((x: IIngredient) => x.type === 'main')} title='Начинки' />
+          <Menu data={burgerIngredients.filter(x => x.type === 'main')} title='Начинки' />
         </div>
       </div>
     </div>

@@ -1,18 +1,28 @@
-import { Middleware } from 'redux';
-import { RootState, AppDispatch } from '../types';
+import { Middleware } from "redux";
+import { RootState, AppDispatch } from "../types";
+import { WS_CONNECTION_CLOSED,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS,
+  WS_GET_MESSAGE,
+  WS_SEND_MESSAGE,
+  WS_CONNECTION_CLOSE } from "../actions/feed";
 
 type wsActionsType = {
-   wsInit: string; 
-   wsSendMessage: string; 
-   onOpen: string; 
-   onClose: string; 
-   onError: string; 
-   onMessage: string; 
-   wsClose: string; 
-}
+  wsInit: typeof WS_CONNECTION_START;
+  wsSendMessage: typeof WS_SEND_MESSAGE;
+  onOpen: typeof WS_CONNECTION_SUCCESS;
+  onClose: typeof WS_CONNECTION_CLOSED;
+  onError: typeof WS_CONNECTION_ERROR;
+  onMessage: typeof WS_GET_MESSAGE;
+  wsClose: typeof WS_CONNECTION_CLOSE;
+};
 
-export const socketMiddleware = (wsUrl: string, wsActions: wsActionsType): Middleware<{}, RootState, AppDispatch> => {
-  return store => {
+export const socketMiddleware = (
+  wsUrl: string,
+  wsActions: wsActionsType
+): Middleware<{}, RootState, AppDispatch> => {
+  return (store) => {
     let socket: WebSocket | null = null;
     const { dispatch } = store;
     const { wsInit, onOpen, onClose, onError, onMessage, wsClose } = wsActions;
@@ -41,7 +51,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: wsActionsType): Middl
       };
     };
 
-    return next => action => {
+    return (next) => (action) => {
       const { type, payload } = action;
 
       if (type === wsInit) {

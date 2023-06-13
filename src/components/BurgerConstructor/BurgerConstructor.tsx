@@ -34,7 +34,7 @@ const Record: FC<RecordProps> = ({ data, length }) => {
   const [, dropTarget] = useDrop({
     accept: "ingridientIsMove",
     drop(item: {id: string}) {
-      const ingredient = burgerConstructor.find((x: IIngredientDrop) => x.id === item.id);
+      const ingredient = burgerConstructor.find(x => x.id === item.id);
       if (ingredient?.type === 'bun' || ingredient?.type === 'bun' || ingredient?._id === data._id) {
         return;
       }
@@ -79,14 +79,14 @@ export const BurgerConstructor: FC = () => {
       navigate('/login');
       return;
     }
-    const order = Array.from(burgerConstructor.map((x: { _id: string; }) => x._id));
+    const order = Array.from(burgerConstructor.map(x => x._id));
     dispatch(addOrder(order));
     navigate("send_order", { state: { backgroundLocation: true } });
     dispatch(clearBurgerConstructor());
   };
 
   const handleDrop = (itemId: string) => {
-    const data: IIngredient | undefined = burgerIngredients?.find((x: {_id: string}) => x._id === itemId);
+    const data: IIngredient | undefined = burgerIngredients?.find(x => x._id === itemId);
     if (!data) {
       return;
     }
@@ -121,10 +121,10 @@ export const BurgerConstructor: FC = () => {
   return (
     <div className={`mt-25`} ref={dropTarget}>
       <div className={`${style.container__main} mb-10`}>
-        {burgerConstructor.sort((a: IIngredientDrop, b: IIngredientDrop) => (a.index ?? 0) - (b.index ?? 0)).map((el: IIngredientDrop, index: number) => <Record key={el.id} data={el} length={index} />)}
+        {burgerConstructor.sort((a: IIngredientDrop, b: IIngredientDrop) => (a.index ?? 0) - (b.index ?? 0)).map((el, index) => <Record key={el.id} data={el} length={index} />)}
       </div>
       <div className={`${style.container__order}`}>
-        <p className='text text_type_digits-medium mr-1'>{burgerConstructor.length !== 0 ? burgerConstructor.map((x: IIngredientDrop) => x.price).reduce((sum: number, x: number) => { return sum + x }) : 0}</p>
+        <p className='text text_type_digits-medium mr-1'>{burgerConstructor.length !== 0 ? burgerConstructor.map(x => x.price).reduce((sum, x) => { return sum + x }) : 0}</p>
         <CurrencyIcon type="primary" />
         <div className='ml-10'>
           <Button htmlType="button" id='orderButton' type="primary" size="large" onClick={onOrder} disabled={burgerConstructor.length === 0 || !(burgerConstructor.length > 1 && burgerConstructor[0].type === 'bun' && burgerConstructor.at(-1)?.type === 'bun')}>

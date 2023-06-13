@@ -1,5 +1,4 @@
 import {
-  WS_USER_NAME_UPDATE,
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
@@ -7,6 +6,7 @@ import {
   WS_CONNECTION_CLOSE
 } from '../actions/feed';
 import { IMessages, IUser } from '../types/data';
+import { WsActionTypes } from '../actions/feed';
 
 
 interface FeedState {
@@ -17,10 +17,14 @@ interface FeedState {
 
 const initialState: FeedState = {
   wsConnected: false,
-  messages: []
+  messages: [],
+  user: {
+    email: "",
+    name: ""
+  }
 };
 
-export const wsReducer = (state = initialState, action: { type: string; payload: any }): FeedState => {
+export const wsReducer = (state = initialState, action: WsActionTypes): FeedState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
@@ -54,11 +58,6 @@ export const wsReducer = (state = initialState, action: { type: string; payload:
         messages: state.messages.length
           ? [...state.messages, { ...action.payload, timestamp: new Date().getTime() / 1000 }]
           : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }]
-      };
-    case WS_USER_NAME_UPDATE:
-      return {
-        ...state,
-        user: action.payload
       };
 
     default:

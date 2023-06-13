@@ -68,8 +68,8 @@ export const Order: FC<OrderType> = ({props}) => {
   const navigate = useNavigate();
   const data = useSelector(state => state.burgerState.burgerIngredients);
   let sum = 0;
-  props.ingredients.map((i: string) => {
-    const ingredient = data.find((el: IIngredient) => el._id === i);
+  props.ingredients.map(i => {
+    const ingredient = data.find(el => el._id === i);
     if (ingredient) {
       sum += ingredient.price;
     }
@@ -112,7 +112,7 @@ export const Order: FC<OrderType> = ({props}) => {
       <div className={`${style.main_container} p-6`}>
         <div className={style.img_container}>
           {data.length > 0 &&
-            props.ingredients.map((i: string, index: number) => {
+            props.ingredients.map((i, index) => {
               if (index === 5) {
                 return (
                   <Image
@@ -146,7 +146,7 @@ type ImageProps = {
 };
 
 const Image: FC<ImageProps> = ({ ingredientId, data, last, count }) => {
-  const ingredient = data.find((el) => el._id === ingredientId);
+  const ingredient = data.find(el => el._id === ingredientId);
   let src: string | undefined = undefined;
   if (ingredient) {
     src = ingredient.image_mobile;

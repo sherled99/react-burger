@@ -27,12 +27,12 @@ export const OrderModal: FC<OrderModalProps> = () => {
   const ingredients = useSelector(state => state.burgerState.burgerIngredients);
   const wsReducer = useSelector(state => state.wsReducer.messages);
   const message = wsReducer[wsReducer.length - 1];
-  const order = message?.orders?.find((x: { _id: string }) => x._id === id);
+  const order = message?.orders?.find(x => x._id === id);
   const ingredientsInOrder = order?.ingredients && getIngredientsInOrder(order.ingredients);
 
   let sum = 0;
   order?.ingredients?.forEach((i: string) => {
-    sum += ingredients?.find((el: IIngredient) => el._id === i)?.price || 0;
+    sum += ingredients?.find(el => el._id === i)?.price || 0;
   });
 
   if (!order || !ingredients) {
@@ -48,7 +48,7 @@ export const OrderModal: FC<OrderModalProps> = () => {
       </p>
       <p className='text text text_type_main-medium'>Состав:</p>
       <div className={style.imgs_container}>
-        {ingredientsInOrder?.map((i: [string, number], index: number) => {
+        {ingredientsInOrder?.map((i, index) => {
           return <Image ingredients={i} data={ingredients} key={index} />;
         })}
       </div>
@@ -69,7 +69,7 @@ type ImageProps = {
 };
 
 const Image = ({ ingredients, data }: ImageProps) => {
-  const ingredient = data?.find((el) => el._id === ingredients[0]);
+  const ingredient = data?.find(el => el._id === ingredients[0]);
   let src: string | undefined = undefined;
   if (ingredient) {
     src = ingredient.image_mobile;

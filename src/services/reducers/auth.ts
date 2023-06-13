@@ -22,6 +22,7 @@ import {
 } from '../actions/auth';
 
 import { IUser } from '../types/data';
+import { AuthActionTypes } from '../actions/auth';
 
 interface AuthState {
   user: IUser;
@@ -68,7 +69,7 @@ const initialState: AuthState = {
   error: null
 };
 
-export const authReducer = (state = initialState, action: any): AuthState => {
+export const authReducer = (state = initialState, action: AuthActionTypes): AuthState => {
   switch (action.type) {
     case GET_REGISTOR_REQUEST: {
       return {

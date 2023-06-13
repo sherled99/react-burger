@@ -52,7 +52,6 @@ export function openModal(
   typeModal: string,
   burgerConfig: IIngredient
 ): BurgerActionTypes {
-  debugger
   return {
     type: OPEN_MODAL,
     burgerConfig: burgerConfig,

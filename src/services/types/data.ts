@@ -59,3 +59,18 @@ export interface IOrderSuccess {
   name: string;
   number?: number;
 }
+
+export interface IOptions {
+  method: string;
+  headers: {
+    "Authorization"?: string;
+    "Content-Type"?: string;
+  },
+  body?: string
+}
+
+export interface ICustomResponse {
+  success: boolean;
+  message: string
+}
+

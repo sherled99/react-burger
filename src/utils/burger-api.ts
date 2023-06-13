@@ -1,14 +1,15 @@
 import { setCookie, getCookie } from "./cookie";
+import { IOptions, ICustomResponse } from "../services/types/data";
 
 const _url = "https://norma.nomoreparties.space/api";
 
 export const getAllIngridients = () => {
-  return _request<any[]>(`${_url}/ingredients`);
+  return _request(`${_url}/ingredients`);
 };
 
-export const createOrder = (ingredients: any[]) => {
+export const createOrder = (ingredients: Array<string>) => {
   const accessToken = getCookie("accessToken");
-  return _fetchWithRefresh<any>(`${_url}/orders`, {
+  return _fetchWithRefresh(`${_url}/orders`, {
     method: "POST",
     body: JSON.stringify({ ingredients }),
     headers: {
@@ -19,7 +20,7 @@ export const createOrder = (ingredients: any[]) => {
 };
 
 export const resetPassword = (email: string) => {
-  return _request<void>(`${_url}/password-reset`, {
+  return _request(`${_url}/password-reset`, {
     method: "POST",
     body: JSON.stringify({ email }),
     headers: {
@@ -29,7 +30,7 @@ export const resetPassword = (email: string) => {
 };
 
 export const reset = (password: string, token: string) => {
-  return _request<void>(`${_url}/password-reset/reset`, {
+  return _request(`${_url}/password-reset/reset`, {
     method: "POST",
     body: JSON.stringify({ password, token }),
     headers: {
@@ -39,7 +40,7 @@ export const reset = (password: string, token: string) => {
 };
 
 export const register = (email: string, password: string, name: string) => {
-  return _request<any>(`${_url}/auth/register`, {
+  return _request(`${_url}/auth/register`, {
     method: "POST",
     body: JSON.stringify({ email, password, name }),
     headers: {
@@ -57,7 +58,7 @@ export const register = (email: string, password: string, name: string) => {
 };
 
 export const login = (email: string, password: string) => {
-  return _request<any>(`${_url}/auth/login`, {
+  return _request(`${_url}/auth/login`, {
     method: "POST",
     body: JSON.stringify({ email, password }),
     headers: {
@@ -76,7 +77,7 @@ export const login = (email: string, password: string) => {
 
 export const updateUser = (name: string, email: string, password?: string) => {
   const accessToken = getCookie("accessToken");
-  return _fetchWithRefresh<any>(`${_url}/auth/user`, {
+  return _fetchWithRefresh(`${_url}/auth/user`, {
     method: "PATCH",
     body: password
       ? JSON.stringify({ name, email, password })
@@ -90,7 +91,7 @@ export const updateUser = (name: string, email: string, password?: string) => {
 
 export const refreshToken = () => {
   const token = getCookie("token");
-  return _request<any>(`${_url}/auth/token`, {
+  return _request(`${_url}/auth/token`, {
     method: "POST",
     body: JSON.stringify({ token }),
     headers: {
@@ -109,7 +110,7 @@ export const refreshToken = () => {
 
 export const logout = () => {
   const token = getCookie("token");
-  return _request<void>(`${_url}/auth/logout`, {
+  return _request(`${_url}/auth/logout`, {
     method: "POST",
     body: JSON.stringify({ token }),
     headers: {
@@ -120,7 +121,7 @@ export const logout = () => {
 
 export const getUserRequest = () => {
   const accessToken = getCookie("accessToken");
-  return _fetchWithRefresh<any>(`${_url}/auth/user`, {
+  return _fetchWithRefresh(`${_url}/auth/user`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -129,14 +130,14 @@ export const getUserRequest = () => {
   });
 };
 
-const _fetchWithRefresh = async <T>(url: string, options: any) => {
+const _fetchWithRefresh = async (url: string, options: IOptions) => {
   return fetch(url, options)
-    .then((res) => _checkResponse<T>(res))
+    .then((res) => _checkResponse(res))
     .catch((err) => {
       if (err.message === "jwt expired") {
         return refreshToken().then(() => {
           options.headers.Authorization = getCookie("accessToken");
-          return fetch(url, options).then((res) => _checkResponse<T>(res));
+          return fetch(url, options).then((res) => _checkResponse(res));
         });
       } else {
         return Promise.reject(err);
@@ -144,10 +145,10 @@ const _fetchWithRefresh = async <T>(url: string, options: any) => {
     });
 };
 
-const _request = <T>(url: string, options?: any) => {
+const _request = (url: string, options?: IOptions) => {
   return fetch(url, options)
-    .then((res) => _checkResponse<T>(res))
-    .then((res) => _checkSuccess<T>(res))
+    .then((res) => _checkResponse(res))
+    .then((res) => _checkSuccess(res))
     .catch((res) => {
       if (!res.success && res.message === "You should be authorised") {
         refreshToken();
@@ -157,13 +158,13 @@ const _request = <T>(url: string, options?: any) => {
     });
 };
 
-const _checkResponse = <T>(res: Response) => {
+const _checkResponse = (res: Response) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-const _checkSuccess = <T>(res: T | any): T => {
-  if ((res as any).success === false) {
-    throw new Error(`Ошибка: ${(res as any).message}`);
+const _checkSuccess = (res: ICustomResponse) => {
+  if (res.success === false) {
+    throw new Error(`Ошибка: ${res.message}`);
   }
-  return res as T;
+  return res;
 };

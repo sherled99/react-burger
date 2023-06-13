@@ -1,46 +1,48 @@
-export const WS_CONNECTION_START = "WS_CONNECTION_START";
-export const WS_CONNECTION_SUCCESS = "WS_CONNECTION_SUCCESS";
-export const WS_CONNECTION_ERROR = "WS_CONNECTION_ERROR";
-export const WS_CONNECTION_CLOSED = "WS_CONNECTION_CLOSED";
-export const WS_GET_MESSAGE = "WS_GET_MESSAGE";
-export const WS_SEND_MESSAGE = "WS_SEND_MESSAGE";
-export const WS_USER_NAME_UPDATE = "WS_USER_NAME_UPDATE";
-export const WS_CONNECTION_CLOSE = "WS_CONNECTION_CLOSE";
+import { IUser, IMessages } from "../types/data";
+export const WS_CONNECTION_START: "WS_CONNECTION_START" = "WS_CONNECTION_START";
+export const WS_CONNECTION_SUCCESS: "WS_CONNECTION_SUCCESS" = "WS_CONNECTION_SUCCESS";
+export const WS_CONNECTION_ERROR: "WS_CONNECTION_ERROR" = "WS_CONNECTION_ERROR";
+export const WS_CONNECTION_CLOSED: "WS_CONNECTION_CLOSED" = "WS_CONNECTION_CLOSED";
+export const WS_GET_MESSAGE: "WS_GET_MESSAGE" = "WS_GET_MESSAGE";
+export const WS_SEND_MESSAGE: "WS_SEND_MESSAGE" = "WS_SEND_MESSAGE";
+export const WS_USER_NAME_UPDATE: "WS_USER_NAME_UPDATE" = "WS_USER_NAME_UPDATE";
+export const WS_CONNECTION_CLOSE: "WS_CONNECTION_CLOSE" = "WS_CONNECTION_CLOSE";
 
 export interface WsConnectionStartAction {
-  type: typeof WS_CONNECTION_START;
+  readonly type: typeof WS_CONNECTION_START;
 }
 
 export interface WsConnectionSuccessAction {
-  type: typeof WS_CONNECTION_SUCCESS;
-  connection: string;
+  readonly type: typeof WS_CONNECTION_SUCCESS;
+  readonly connection?: string;
 }
 
 export interface WsConnectionErrorAction {
-  type: typeof WS_CONNECTION_ERROR;
+  readonly type: typeof WS_CONNECTION_ERROR;
 }
 
 export interface WsConnectionClosedAction {
-  type: typeof WS_CONNECTION_CLOSED;
+  readonly type: typeof WS_CONNECTION_CLOSED;
 }
 
 export interface WsGetMessageAction {
-  type: typeof WS_GET_MESSAGE;
-  payload: string;
+  readonly type: typeof WS_GET_MESSAGE;
+  readonly payload: IMessages;
 }
 
 export interface WsSendMessageAction {
-  type: typeof WS_SEND_MESSAGE;
-  payload: string;
+  readonly type: typeof WS_SEND_MESSAGE;
+  readonly payload: string;
 }
 
 export interface WsUserNameUpdateAction {
-  type: typeof WS_USER_NAME_UPDATE;
-  payload: string;
+  readonly type: typeof WS_USER_NAME_UPDATE;
+  readonly payload: string;
+  readonly user: IUser;
 }
 
 export interface WsConnectionCloseAction {
-  type: typeof WS_CONNECTION_CLOSE;
+  readonly type: typeof WS_CONNECTION_CLOSE;
 }
 
 export type WsActionTypes =
@@ -55,48 +57,35 @@ export type WsActionTypes =
 
 export const wsConnectionSuccess = (
   connection: string
-): WsConnectionSuccessAction => {
-  return {
+): WsConnectionSuccessAction => ({
     type: WS_CONNECTION_SUCCESS,
-    connection: connection,
-  };
-};
+    connection: connection
+  });
 
-export const wsConnectionError = (): WsConnectionErrorAction => {
-  return {
-    type: WS_CONNECTION_ERROR,
-  };
-};
+export const wsConnectionError = (): WsConnectionErrorAction => ({
+  type: WS_CONNECTION_ERROR
+});
 
-export const wsConnectionClosed = (): WsConnectionClosedAction => {
-  return {
+export const wsConnectionClosed = (): WsConnectionClosedAction => ({
     type: WS_CONNECTION_CLOSED,
-  };
-};
+  });
 
-export const wsGetMessage = (message: string): WsGetMessageAction => {
-  return {
-    type: WS_GET_MESSAGE,
-    payload: message,
-  };
-};
+export const wsGetMessage = (message: IMessages): WsGetMessageAction => ({
+  type: WS_GET_MESSAGE,
+  payload: message
+});
 
-export const wsSendMessage = (message: string): WsSendMessageAction => {
-  return {
+export const wsSendMessage = (message: string): WsSendMessageAction => ({
     type: WS_SEND_MESSAGE,
     payload: message,
-  };
-};
+  });
 
-export const wsUserNameUpdate = (message: string): WsUserNameUpdateAction => {
-  return {
+export const wsUserNameUpdate = (message: string, user: IUser): WsUserNameUpdateAction => ({
     type: WS_USER_NAME_UPDATE,
     payload: message,
-  };
-};
+    user: user
+  });
 
-export const wsUserClose = (): WsConnectionCloseAction => {
-  return {
+export const wsUserClose = (): WsConnectionCloseAction => ({
     type: WS_CONNECTION_CLOSE,
-  };
-};
+});

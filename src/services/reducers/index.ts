@@ -11,6 +11,7 @@ import {
   SET_TAB
 } from '../actions/index';
 import { TIngredient, TOrder } from '../types/data';
+import { BurgerActionTypes } from '../actions/index';
 
 
 interface AppState {
@@ -35,7 +36,7 @@ const initialState: AppState = {
   burgerConfig: {}
 };
 
-export const initialReducer = (state = initialState, action: any): AppState => {
+export const initialReducer = (state = initialState, action: BurgerActionTypes): AppState => {
   switch (action.type) {
     case OPEN_MODAL: {
       return {

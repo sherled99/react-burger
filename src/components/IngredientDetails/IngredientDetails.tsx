@@ -10,7 +10,7 @@ export const IngredientDetails: FC<IngredientDetailsProps> = () => {
   const ingredients = useSelector(
     state => state.burgerState.burgerIngredients
   );
-  const data = ingredients?.find((x: {_id: string}) => x._id === id);
+  const data = ingredients?.find(x => x._id === id);
 
   if (!data) {
     return null;

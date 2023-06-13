@@ -43,7 +43,7 @@ export function ProfileOrdersPage() {
                     <p className={style.link} onClick={onLogout}>Выход</p>
                 </div>
                 <div>
-                    {data.length > 0 && message?.orders?.map((el: IOrder) => <Order props={el} key={el.number} />)}
+                    {data.length > 0 && message?.orders?.map(el => <Order props={el} key={el.number} />)}
                 </div>
             </div>
         </div>

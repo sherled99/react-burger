@@ -36,13 +36,18 @@ export const Modal: FC<ModalProps> = ({children}) => {
         }
         const classList: Array<string> = Array.from((e.target as Element).classList);
         if (
-          classList?.filter((x: string) => x?.includes('ModalOverlay'))?.length === 0 &&
+          classList?.filter(x => x?.includes('ModalOverlay'))?.length === 0 &&
           (e.target as Element).tagName !== 'svg'
         ) {
           return;
         }
         navigate(-1);
       };
+
+    if (!modalRoot){
+      return <>
+      </>
+    }
 
     return ReactDOM.createPortal ( 
         ( 

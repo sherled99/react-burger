@@ -1,1 +1,1 @@
-export const modalRoot: any = document.getElementById("react-modals");
+export const modalRoot: HTMLElement | null = document.getElementById("react-modals");

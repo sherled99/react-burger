@@ -9,6 +9,8 @@ import {
   UPDATE_ORDER_IN_BURGER_CONSTRUCTOR
 } from '../actions/burger';
 
+import { TIngredientsActions } from '../actions/burger';
+
 import { IIngredient, IIngredientDrop } from '../types/data';
 
 interface BurgerState {
@@ -27,7 +29,7 @@ const initialState: BurgerState = {
   error: null
 };
 
-export const burgerReducer = (state = initialState, action: any): BurgerState => {
+export const burgerReducer = (state = initialState, action: TIngredientsActions): BurgerState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -60,13 +62,13 @@ export const burgerReducer = (state = initialState, action: any): BurgerState =>
     case DELETE_TO_BURGER_CONSTRUCTOR: {
       return {
         ...state,
-        burgerConstructor: state.burgerConstructor.filter((el: IIngredientDrop) => el.index !== action.index)
+        burgerConstructor: state.burgerConstructor.filter(el => el.index !== action.index)
       };
     }
     case DELETE_BUN_TO_BURGER_CONSTRUCTOR: {
       return {
         ...state,
-        burgerConstructor: state.burgerConstructor.filter((el: IIngredientDrop) => el.type !== 'bun')
+        burgerConstructor: state.burgerConstructor.filter(el => el.type !== 'bun')
       };
     }
     case UPDATE_ORDER_IN_BURGER_CONSTRUCTOR: {
@@ -74,7 +76,7 @@ export const burgerReducer = (state = initialState, action: any): BurgerState =>
       const lIndex = action.data.index;
       return {
         ...state,
-        burgerConstructor: state.burgerConstructor.map((x: IIngredientDrop) => {
+        burgerConstructor: state.burgerConstructor.map(x => {
           if (x.index === fIndex) {
             x.index = lIndex;
             return x;

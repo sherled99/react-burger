@@ -73,6 +73,7 @@ export interface LoginRequestAction {
 }
 
 export interface LoginSuccessAction {
+  error: string | null;
   type: typeof GET_LOGIN_SUCCESS;
   user: IUser;
   accessToken: string;
@@ -122,7 +123,7 @@ export interface GetUserSuccessAction {
 
 export interface GetUserFailedAction {
   type: typeof GET_USER_FAILED;
-  error: string;
+  error: string | null;
 }
 
 export type AuthActionTypes =
@@ -221,6 +222,7 @@ export const login: AppThunk = (email: string, password: string) => (dispatch: A
           user: res.user,
           accessToken: res.accessToken,
           refreshToken: res.refreshToken,
+          error: null
         });
       } else {
         dispatch({
@@ -281,6 +283,7 @@ export const getUserRequest: AppThunk = () => (dispatch: AppDispatch) => {
   if (!getCookie('accessToken')) {
     dispatch({
       type: GET_USER_FAILED,
+      error: null
     });
     return;
   }
@@ -294,7 +297,7 @@ export const getUserRequest: AppThunk = () => (dispatch: AppDispatch) => {
     .catch((error) => {
       dispatch({
         type: GET_USER_FAILED,
-        error: error.message,
+        error: error.message
       });
     });
 };
